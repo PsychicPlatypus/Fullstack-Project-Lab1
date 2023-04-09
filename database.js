@@ -13,3 +13,10 @@ export async function getAllAlbums() {
 	mongoose.connection.close();
 	return albums;
 }
+
+export async function getAlbumByTitle(title) {
+	await mongoose.connect(mongoDB);
+	const album = await Albums.find({ name: title });
+	mongoose.connection.close();
+	return album;
+}

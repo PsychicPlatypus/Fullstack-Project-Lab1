@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { getAllAlbums } from "./database.js";
+import { getAlbumByTitle, getAllAlbums } from "./database.js";
 import { config } from "dotenv";
 
 config();
@@ -29,10 +29,22 @@ app.get("/api/albums", async function (_req, res) {
 		const albums = await getAllAlbums();
 		res.json(albums);
 	} catch (error) {
-		res.status(500);
+		res.sendStatus(500);
 		console.log(error);
 	}
 });
+
+app.get("/api/albums/:albumName", async function (req, res) {
+	try {
+		const album = await getAlbumByTitle(req.params.albumName);
+		album.length === 0 ? res.sendStatus(404) : res.json(album);
+	} catch (error) {
+		res.sendStatus(500);
+		console.log(error);
+	}
+});
+
+// app.put();
 
 app.listen(process.env.PORT, function () {
 	console.log(`Server started at port http://localhost:${process.env.PORT}/`);

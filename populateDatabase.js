@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Albums from "./models/Albums.js";
+import { config } from "dotenv";
 
 config();
 mongoose.set("strictQuery", false); // Prepare for Mongoose 7
@@ -14,25 +15,19 @@ async function populate() {
 
 	const albums = [
 		{
+			id: 0,
 			name: "The Dark Side of the Moon",
 			artist: "Pink Floyd",
 			year: "1973",
 		},
+		{ id: 1, name: "The Wall", artist: "Pink Floyd", year: "1979" },
 		{
-			name: "The Wall",
-			artist: "Pink Floyd",
-			year: "1979",
-		},
-		{
+			id: 2,
 			name: "Wish You Were Here",
 			artist: "Pink Floyd",
 			year: "1975",
 		},
-		{
-			name: "Animals",
-			artist: "Pink Floyd",
-			year: "1977",
-		},
+		{ id: 3, name: "Animals", artist: "Pink Floyd", year: "1977" },
 	];
 
 	for (let i = 0; i < albums.length; i++) {

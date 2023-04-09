@@ -2,6 +2,9 @@ import { Schema, model } from "mongoose";
 
 const AlbumSchema = new Schema(
 	{
+		id: {
+			type: "Number",
+		},
 		name: {
 			type: "String",
 		},
