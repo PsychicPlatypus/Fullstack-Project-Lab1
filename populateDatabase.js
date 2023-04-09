@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import Album from "./models/Albums.js";
-import { config } from "dotenv";
+import Albums from "./models/Albums.js";
 
 config();
 mongoose.set("strictQuery", false); // Prepare for Mongoose 7
@@ -37,7 +36,7 @@ async function populate() {
 	];
 
 	for (let i = 0; i < albums.length; i++) {
-		const album = new Album(albums[i]);
+		const album = new Albums(albums[i]);
 		await album.save();
 	}
 }

@@ -15,6 +15,6 @@ const AlbumSchema = new Schema(
 	{ collection: "albums" }
 );
 
-const Album = model("Album", AlbumSchema);
+const Albums = model("Album", AlbumSchema);
 
-export default Album;
+export default Albums;
