@@ -23,7 +23,7 @@ export async function getAlbumByTitle(title) {
 
 export async function getAlbumById(id) {
 	await mongoose.connect(mongoDB);
-	const album = await Albums.find({ id: id });
+	const album = await Albums.findOne({ id: id });
 	mongoose.connection.close();
 	return album;
 }
@@ -72,7 +72,7 @@ export async function deleteOneAlbum(album) {
 	await mongoose.connect(mongoDB);
 	const count_ = await Albums.countDocuments({ id: album.id }).exec();
 	if (count_ > 0) {
-		const album_ = Albums.findOneAndDelete({ id: album.id });
+		const album_ = await Albums.findOneAndDelete({ id: album.id });
 		mongoose.connection.close();
 		return album_;
 	}
