@@ -36,7 +36,7 @@ const albumEntry = (_, album) => {
 		<td>${album.artist}</td>
 		<td>${album.year.replace(/T/, " ").replace(/\..+/, "")}</td>
 		<td>
-			<button type="button" class="btn btn-success">
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
 				<i class="fa fa-pen"></i>
 			</button>
 			<button type="button" class="btn btn-danger" name="${
