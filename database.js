@@ -20,3 +20,62 @@ export async function getAlbumByTitle(title) {
 	mongoose.connection.close();
 	return album;
 }
+
+export async function getAlbumById(id) {
+	await mongoose.connect(mongoDB);
+	const album = await Albums.find({ id: id });
+	mongoose.connection.close();
+	return album;
+}
+
+export async function createNewAlbum(album) {
+	await mongoose.connect(mongoDB);
+	const count_ = await Albums.countDocuments({
+		$or: [{ id: album.id }, { artist: album.artist }, { name: album.name }],
+	}).exec();
+	if (count_ === 0) {
+		const album_ = await Albums.create({
+			id: album.id,
+			name: album.name,
+			year: Date.parse(album.date),
+			artist: album.artist,
+		});
+		mongoose.connection.close();
+		return album_;
+	}
+	mongoose.connection.close();
+	return { message: "Collection already exists." };
+}
+
+export async function updateAlbumWithId(album) {
+	await mongoose.connect(mongoDB);
+	const count_ = await Albums.countDocuments({ id: album.id }).exec();
+	if (count_ > 0) {
+		const album_ = Albums.findOneAndUpdate(
+			{ id: album.id },
+			{
+				id: album.id,
+				name: album.name,
+				year: Date.parse(album.date),
+				artist: album.artist,
+			},
+			{ new: true }
+		);
+		mongoose.connection.close();
+		return album_;
+	}
+	mongoose.connection.close();
+	return { message: "Collection not found." };
+}
+
+export async function deleteOneAlbum(album) {
+	await mongoose.connect(mongoDB);
+	const count_ = await Albums.countDocuments({ id: album.id }).exec();
+	if (count_ > 0) {
+		const album_ = Albums.findOneAndDelete({ id: album.id });
+		mongoose.connection.close();
+		return album_;
+	}
+	mongoose.connection.close();
+	return { message: "Collection not found." };
+}
