@@ -30,10 +30,15 @@ export async function getAlbumById(id) {
 
 export async function createNewAlbum(album) {
 	await mongoose.connect(mongoDB);
+	if (!album.id) {
+		const newId = await Albums.countDocuments({});
+		album.id = newId;
+	}
 	const count_ = await Albums.countDocuments({
-		$or: [{ id: album.id }, { artist: album.artist }, { name: album.name }],
+		$or: [{ id: album.id }],
 	}).exec();
 	if (count_ === 0) {
+		console.log(album.date);
 		const album_ = await Albums.create({
 			id: album.id,
 			name: album.name,

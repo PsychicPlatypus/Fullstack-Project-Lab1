@@ -36,7 +36,7 @@ const albumEntry = (_, album) => {
 		<td>${album.artist}</td>
 		<td>${album.year.replace(/T/, " ").replace(/\..+/, "")}</td>
 		<td>
-			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAlbum">
 				<i class="fa fa-pen"></i>
 			</button>
 			<button type="button" class="btn btn-danger" name="${
@@ -51,6 +51,16 @@ const albumEntry = (_, album) => {
 
 function deleteAlbum(id) {
 	// Show spinner and disable interactions while it resolves
+	document.getElementById("spinner").classList.remove("d-none");
+	document.getElementById("spinner").classList.add("d-flex");
+	document.body.style.pointerEvents = "none";
+
+	if (!id) {
+		alert("Album id not found, try again later.");
+		document.getElementById("spinner").classList.add("d-none");
+		document.body.style.pointerEvents = "auto";
+		return;
+	}
 	fetch(`http://localhost:8000/api/albums/${id}`, {
 		method: "DELETE",
 		headers: {
@@ -59,7 +69,6 @@ function deleteAlbum(id) {
 	})
 		.then((res) => res.json())
 		.then((data) => {
-			console.log(data);
 			if (data.message === "Collection not found.") {
 				alert("Album not found.");
 			} else {
@@ -67,15 +76,23 @@ function deleteAlbum(id) {
 				start();
 			}
 		})
-		.catch((err) => console.log("Error deleting album: " + err));
+		.catch((err) => console.log("Error deleting album: " + err))
+		.finally(() => {
+			document.getElementById("spinner").classList.add("d-none");
+			document.body.style.pointerEvents = "auto";
+		});
 }
 
 function addAlbum() {
 	const album = {
 		name: document.getElementById("album-name").value,
 		artist: document.getElementById("artist-name").value,
-		year: document.getElementById("year").value,
+		date: document.getElementById("year").value,
 	};
+
+	document.getElementById("spinner").classList.remove("d-none");
+	document.getElementById("spinner").classList.add("d-flex");
+	document.body.style.pointerEvents = "none";
 
 	fetch("http://localhost:8000/api/albums", {
 		method: "POST",
@@ -93,7 +110,16 @@ function addAlbum() {
 				start();
 			}
 		})
-		.catch((err) => console.log("Error adding album: " + err));
+		.catch((err) => console.log("Error adding album: " + err))
+		.finally(() => {
+			document.getElementById("spinner").classList.add("d-none");
+			document.body.style.pointerEvents = "auto";
+		});
 }
 
+document.querySelectorAll("#add-album").forEach((addAlbumBtn) => {
+	addAlbumBtn.addEventListener("click", () => {
+		addAlbum();
+	});
+});
 start();

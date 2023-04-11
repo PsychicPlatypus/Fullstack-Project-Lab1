@@ -50,26 +50,35 @@
 					type="button"
 					class="btn btn-success"
 					data-bs-toggle="modal"
-					data-bs-target="#exampleModal"
+					data-bs-target="#addAlbum"
 				>
 					<i class="fa fa-plus"></i>
 				</button>
+			</div>
+
+			<div
+				id="spinner"
+				class="d-none justify-content-center align-items-center"
+			>
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
 			</div>
 		</div>
 
 		<!-- Modal -->
 		<div
 			class="modal fade"
-			id="exampleModal"
+			id="addAlbum"
 			tabindex="-1"
-			aria-labelledby="exampleModalLabel"
+			aria-labelledby="addAlbumLabel"
 			aria-hidden="true"
 		>
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">
-							Modal title
+						<h5 class="modal-title" id="addAlbumLabel">
+							Add Album
 						</h5>
 						<button
 							type="button"
@@ -78,18 +87,59 @@
 							aria-label="Close"
 						></button>
 					</div>
-					<div class="modal-body">...</div>
-					<div class="modal-footer">
-						<button
-							type="button"
-							class="btn btn-secondary"
-							data-bs-dismiss="modal"
-						>
-							Close
-						</button>
-						<button type="button" class="btn btn-primary">
-							Save changes
-						</button>
+					<div class="modal-body">
+						<form id="post-form">
+							<div class="mb-3">
+								<label for="name" class="col-form-label"
+									>Name:</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="album-name"
+									required
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="artist" class="col-form-label"
+									>Artist:</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="artist-name"
+									required
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="year" class="col-form-label"
+									>Year:</label
+								>
+								<input
+									type="number"
+									class="form-control"
+									id="year"
+									required
+								/>
+							</div>
+							<div class="modal-footer">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal"
+								>
+									Close
+								</button>
+								<button
+									type="button"
+									class="btn btn-primary"
+									id="add-album"
+									data-bs-dismiss="modal"
+								>
+									Add
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

@@ -54,6 +54,7 @@ app.get("/api/albums/:albumName", async function (req, res) {
 app.post("/api/albums", async function (req, res) {
 	try {
 		const album = await createNewAlbum(req.body);
+		console.log(album);
 		album.message === "Collection already exists."
 			? res.status(409).json(album)
 			: res.status(201).json(album);
@@ -76,6 +77,7 @@ app.put("/api/albums/:id", async function (req, res) {
 
 app.delete("/api/albums/:id", async function (req, res) {
 	try {
+		console.log(req.params.id);
 		const album_ = await getAlbumById(req.params.id);
 		const album = await deleteOneAlbum(album_);
 		album.message === "Collection not found."
