@@ -1,6 +1,6 @@
 # Fullstack-Project-Lab1
 
-Fullstack project for hkr
+Fullstack project for hkr, MongoDB Atlas - Node.js - Express. No frontend framework.
 
 ## How To Run
 
