@@ -33,23 +33,8 @@ app.get("/", function (_req, res) {
 
 app.get("/api/albums", async function (_req, res) {
 	try {
-		// const albums = await getAllAlbums();
-		res.json([
-			{
-				id: 0,
-				name: "The Dark Side of the Moon",
-				artist: "Pink Floyd",
-				year: "1973",
-			},
-			{ id: 1, name: "The Wall", artist: "Pink Floyd", year: "1979" },
-			{
-				id: 2,
-				name: "Wish You Were Here",
-				artist: "Pink Floyd",
-				year: "1975",
-			},
-			{ id: 3, name: "Animals", artist: "Pink Floyd", year: "1977" },
-		]);
+		const albums = await getAllAlbums();
+		res.json(albums);
 	} catch (error) {
 		console.log(error);
 		res.sendStatus(500);
