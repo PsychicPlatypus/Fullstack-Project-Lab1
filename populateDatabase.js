@@ -37,9 +37,14 @@ async function populate() {
 }
 
 async function main() {
-	console.log(`Connecting to Database: ${process.env.ATLAS_URI}`);
-	await mongoose.connect(mongoDB);
-	await populate();
-	console.log("Debug: Closing mongoose");
-	mongoose.connection.close();
+	try {
+		console.log(`Connecting to Database: ${process.env.ATLAS_URI}`);
+		await mongoose.connect(mongoDB);
+		await populate();
+		console.log("Debug: Closing mongoose");
+	} catch (error) {
+		console.log(`Script failed unexpectedly, reason: \n${error}`);
+	} finally {
+		mongoose.connection.close();
+	}
 }
