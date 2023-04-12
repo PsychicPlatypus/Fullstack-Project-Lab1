@@ -1,5 +1,4 @@
 let albums;
-let albumToUpdate;
 
 async function start() {
 	fetch("http://localhost:8000/api/albums")
