@@ -25,6 +25,24 @@
 			referrerpolicy="no-referrer"
 		/>
 
+		<script>
+			function toggleUpdate(id, albumName, albumArtist, albumYear) {
+				//save id in localstorage
+				const modalTitleLabel =
+					document.getElementById("updateAlbumLabel");
+				const name = document.getElementById("update-album-name");
+				const artist = document.getElementById("update-artist-name");
+				const year = document.getElementById("update-year");
+
+				name.value = albumName;
+				artist.value = albumArtist;
+				year.value = albumYear;
+				modalTitleLabel.innerHTML = `Update album ${id}`;
+
+				localStorage.setItem("albumId", id);
+			}
+		</script>
+
 		<title>Albums</title>
 	</head>
 
@@ -66,7 +84,7 @@
 			</div>
 		</div>
 
-		<!-- Modal -->
+		<!-- Add Modal -->
 		<div
 			class="modal fade"
 			id="addAlbum"
@@ -137,6 +155,86 @@
 									data-bs-dismiss="modal"
 								>
 									Add
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Modal -->
+		<div
+			class="modal fade"
+			id="updateAlbum"
+			tabindex="-1"
+			aria-labelledby="updateAlbumLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="updateAlbumLabel">
+							Update Album
+						</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+							onclick=""
+						></button>
+					</div>
+					<div class="modal-body">
+						<form id="update-form">
+							<div class="mb-3">
+								<label for="name" class="col-form-label"
+									>Name:</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="update-album-name"
+									required
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="artist" class="col-form-label"
+									>Artist:</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="update-artist-name"
+									required
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="year" class="col-form-label"
+									>Year:</label
+								>
+								<input
+									type="number"
+									class="form-control"
+									id="update-year"
+									required
+								/>
+							</div>
+							<div class="modal-footer">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal"
+								>
+									Close
+								</button>
+								<button
+									type="button"
+									class="btn btn-primary"
+									id="update-album"
+									data-bs-dismiss="modal"
+								>
+									Update
 								</button>
 							</div>
 						</form>

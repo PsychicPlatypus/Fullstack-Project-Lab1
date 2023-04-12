@@ -1,4 +1,5 @@
 let albums;
+let albumToUpdate;
 
 async function start() {
 	fetch("http://localhost:8000/api/albums")
@@ -21,6 +22,7 @@ function displayAlbums() {
 		: (albumTable.innerHTML = albumItems);
 
 	const deleteButtons = document.querySelectorAll("#delete-button");
+
 	deleteButtons.forEach((deleteBtn) => {
 		deleteBtn.addEventListener("click", (e) => {
 			deleteAlbum(e.target.name);
@@ -36,9 +38,18 @@ const albumEntry = (_, album) => {
 		<td>${album.artist}</td>
 		<td>${album.year.replace(/T/, " ").replace(/\..+/, "")}</td>
 		<td>
-			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAlbum">
-				<i class="fa fa-pen"></i>
-			</button>
+			<button
+					type="button"
+					class="btn btn-success"
+					data-bs-toggle="modal"
+					data-bs-target="#updateAlbum"
+					onClick="toggleUpdate('${album.id}', '${album.name}', '${album.artist}', '${
+		album.year
+	}')"
+					id="update-button"
+				>
+					<i class="fa fa-pen"></i>
+				</button>
 			<button type="button" class="btn btn-danger" name="${
 				album.id
 			}" id="delete-button">
@@ -116,6 +127,48 @@ function addAlbum() {
 			document.body.style.pointerEvents = "auto";
 		});
 }
+
+function updateAlbum() {
+	const id = localStorage.getItem("albumId");
+
+	const album = {
+		name: document.getElementById("album-name").value,
+		artist: document.getElementById("artist-name").value,
+		date: document.getElementById("year").value,
+	};
+
+	document.getElementById("spinner").classList.remove("d-none");
+	document.getElementById("spinner").classList.add("d-flex");
+	document.body.style.pointerEvents = "none";
+
+	fetch(`http://localhost:8000/api/albums/${id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(album),
+	})
+		.then((res) => res.json())
+		.then((data) => {
+			if (data.message === "Collection not found.") {
+				alert("Album not found.");
+			} else {
+				alert("Album updated.");
+				start();
+			}
+		})
+		.catch((err) => console.log("Error updating album: " + err))
+		.finally(() => {
+			document.getElementById("spinner").classList.add("d-none");
+			document.body.style.pointerEvents = "auto";
+		});
+}
+
+document.querySelectorAll("#update-album").forEach((updateAlbumBtn) => {
+	updateAlbumBtn.addEventListener("click", () => {
+		updateAlbum();
+	});
+});
 
 document.querySelectorAll("#add-album").forEach((addAlbumBtn) => {
 	addAlbumBtn.addEventListener("click", () => {
